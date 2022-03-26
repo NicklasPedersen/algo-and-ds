@@ -71,6 +71,15 @@ int word_count(char const *str) {
     return num_words;
 }
 
+#include <stdio.h>
+
+#ifdef _WIN32
+#include <string.h>
+#define strcasecmp _stricmp
+#else // assuming POSIX or BSD compliant system
+#include <strings.h>
+#endif
+
 /* Helper
  * Compares 2 integers and returns -1, 0, or 1 depending
  * on if str1 is less than, equal to, or greater than str2
@@ -79,11 +88,11 @@ int word_count(char const *str) {
 int compare_strings(void const *str1, void const *str2) {
     char *left = *(char **)str1;
     char *right = *(char **)str2;
-    return strcmp(left, right);
+    return strcasecmp(left, right);
 }
 
 /* Task 5 "Sorter ord"
- * Sorts 
+ * Sorts words in a string
  */
 void sort_words(char const *str) {
     /* This means we have to run through the string twice but only need 1 allocation
@@ -137,7 +146,7 @@ void sort_words(char const *str) {
 #define ARR_S(arr) (sizeof(arr)/sizeof(*(arr)))
 
 int main() {
-    char words_string[] = "the quick brown fox jumped over the lazy dog";
+    char words_string[] = "The quick brown fox jumped over the lazy dog";
     
     /* Task 2 */
     printf("%s\n", words_string);
